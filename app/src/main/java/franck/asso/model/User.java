@@ -5,6 +5,8 @@ package franck.asso.model;
  */
 public class User {
     private static User ourInstance = new User();
+    protected String login;
+    protected String password;
     
     public static User getInstance() {
         return ourInstance;
@@ -13,13 +15,19 @@ public class User {
     private User() {
     }
 
-    protected String login;
-    protected String password;
+    public void reset() {
+        login = null;
+        password = null;
+    }
+
+    public boolean isSet() {
+        return login != null && password != null;
+    }
 
     public String getLogin() {
         return login;
     }
-    
+
     public void setLogin(String login) {
         this.login = login;
     }
