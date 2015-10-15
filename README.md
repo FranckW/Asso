@@ -7,4 +7,8 @@
 * Association
 * News
 * Member
+** StaffMember
 * User (singleton)
+
+Association contains a list of **News** and a list of **Member**
+**User** is the singleton needed for logging
