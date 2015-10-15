@@ -25,11 +25,10 @@
 * Loggin on the first screen (optionnaly create an account)
 * He can choose between display a list of association's members and display news
 
-
-
 ##Log
 
 ###15/10/2015
+
 	*Created the model 
-	*Created the basics activities (Home and Login)
+	*Created the basics activities (Home, Login and sign up)
 	*Created the User singleton to manage sessions
