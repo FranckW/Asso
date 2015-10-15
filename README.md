@@ -2,9 +2,9 @@
 ## An Android application to manage association
 
 ## 15/10/2015
-### Define UML
+### Classes
 
-* Association>
+* Association
 * News
 * Member
   * StaffMember
