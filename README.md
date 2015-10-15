@@ -7,7 +7,7 @@
 * Association>
 * News
 * Member
-         StaffMember
+  * StaffMember
 * User (singleton)
 
 Association contains a list of **News** and a list of **Member**
