@@ -11,14 +11,16 @@ public class Association {
     protected String description;
     protected List<StaffMember> staff;
     protected List<Member> members;
+    protected List<News> news;
 
-    public Association(String name, String address, String description, List<StaffMember> staff, List<Member> members) throws Exception {
+    public Association(String name, String address, String description, List<StaffMember> staff, List<Member> members, List<News> news) throws Exception {
         if (this.staffIsOk(staff)) {
             this.name = name;
             this.address = address;
             this.description = description;
             this.staff = staff;
             this.members = members;
+            this.news = news;
         } else {
             throw new Exception("An association needs at least a president and a treasurer.");
         }
@@ -76,5 +78,13 @@ public class Association {
 
     public void setMembers(List<Member> members) {
         this.members = members;
+    }
+
+    public List<News> getNews() {
+        return news;
+    }
+
+    public void setNews(List<News> news) {
+        this.news = news;
     }
 }
