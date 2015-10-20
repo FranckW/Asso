@@ -38,7 +38,7 @@ public class MemberListViewAdapter extends ArrayAdapter<Member> {
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = inflater.inflate(R.layout.activity_member, null);
+            view = inflater.inflate(R.layout.memberinlist, null);
             holder.firstName = (TextView) view.findViewById(R.id.firstName);
             holder.lastName = (TextView) view.findViewById(R.id.lastName);
             view.setTag(holder);

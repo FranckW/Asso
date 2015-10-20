@@ -3,8 +3,10 @@ package franck.asso.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import franck.asso.R;
 import franck.asso.model.User;
@@ -42,5 +44,16 @@ public class HomeActivity extends Activity {
         }
         
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goToMembersList(View view) {
+        Intent intent = new Intent(this, MembersListActivity.class);
+        startActivity(intent);
+    }
+
+    public void logOut(View view) {
+        User.getInstance().reset();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }

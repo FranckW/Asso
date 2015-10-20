@@ -24,8 +24,7 @@ public class LoginActivity extends Activity {
         EditText login = (EditText) findViewById(R.id.inputLogin);
         EditText password = (EditText) findViewById(R.id.inputPassword);
         /*tester les login et password dans la base de données pour voir si ça correspond
-           à un utilisateur, sinon, rester sur cette page
-         */
+           à un utilisateur, sinon, rester sur cette page*/
         User.getInstance().setLogin(login.getText().toString());
         User.getInstance().setPassword(password.getText().toString());
         Intent intent = new Intent(this, HomeActivity.class);

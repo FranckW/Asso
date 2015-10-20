@@ -4,12 +4,9 @@ import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -76,53 +73,8 @@ public class MembersListActivity extends ListActivity {
 
     public void getListItemsView(MemberFilter memberFilter) {
         listView = (ListView) findViewById(android.R.id.list);
-        listAdapter = new MemberListViewAdapter(this, R.layout.activity_member, this.getMembers(memberFilter));
+        listAdapter = new MemberListViewAdapter(this, R.layout.memberinlist, this.getMembers(memberFilter));
         listView.setAdapter(listAdapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-
-            @Override
-            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                final int checkedCount = listView.getCheckedItemCount();
-                mode.setTitle(checkedCount + " Selected");
-                listAdapter.toggleSelection(position);
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.delete:
-                        SparseBooleanArray selected = listAdapter.getSelectedIds();
-                        for (int i = (selected.size() - 1); i >= 0; i--) {
-                            if (selected.valueAt(i)) {
-                                Member selectedItem = listAdapter.getItem(selected.keyAt(i));
-                                listAdapter.remove(selectedItem);
-                                /*database.deleteBookByISBN(selectedItem.getIsbn());*/
-                            }
-                        }
-                        mode.finish();
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-
-            @Override
-            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                mode.getMenuInflater().inflate(R.menu.selected_home, menu);
-                return true;
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode mode) {
-                listAdapter.removeSelection();
-            }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
-        });
     }
 
     /**
