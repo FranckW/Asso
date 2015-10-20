@@ -24,20 +24,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="First name"
-        android:id="@+id/signInFirstName"/>
+        android:id="@+id/signUpFirstName"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Last name"
-        android:id="@+id/signInLastName"/>
+        android:id="@+id/signUpLastName"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/signInPassword"
+        android:id="@+id/signUpPassword"
         android:hint="Password"
         android:layout_gravity="center_horizontal"/>
 
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:inputType="date"
         android:ems="10"
-        android:hint="Birth date"
+        android:hint="Birth date. MM/DD/YYYY"
         android:id="@+id/signUpBirthDate"/>
 
     <EditText
@@ -55,7 +55,7 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:hint="Email"
-        android:id="@+id/signInEmail"/>
+        android:id="@+id/signUpEmail"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -63,7 +63,7 @@
         android:inputType="phone"
         android:ems="10"
         android:hint="Phone number"
-        android:id="@+id/signInPhone"/>
+        android:id="@+id/signUpPhone"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -71,13 +71,14 @@
         android:inputType="textPostalAddress"
         android:ems="10"
         android:hint="Address"
-        android:id="@+id/signInAddress"/>
+        android:id="@+id/signUpAddress"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign up"
-        android:id="@+id/signInValidation"
-        android:layout_gravity="center_horizontal"/>
+        android:id="@+id/signUpValidationButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="signUpValidation"/>
 
 </LinearLayout>
