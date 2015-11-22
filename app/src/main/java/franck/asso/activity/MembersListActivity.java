@@ -8,6 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +24,7 @@ import franck.asso.R;
 import franck.asso.model.Member;
 import franck.asso.model.MemberFilter;
 import franck.asso.model.MemberListViewAdapter;
+import franck.asso.model.Members;
 
 /**
  * Created by franc on 20/10/2015.
@@ -23,11 +32,13 @@ import franck.asso.model.MemberListViewAdapter;
 public class MembersListActivity extends ListActivity {
     protected ListView listView;
     protected MemberListViewAdapter listAdapter;
+    protected List<Member> members;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        members = new ArrayList<Member>();
         handleIntent(getIntent());
     }
 
@@ -66,15 +77,40 @@ public class MembersListActivity extends ListActivity {
         }
     }
 
-    public List<Member> getMembers(MemberFilter memberFilter) {
-        /*get members from database*/
-        return new ArrayList<Member>();
+    public List<Member> getMembers(String query) {
+        /*RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://vps212972.ovh.net/yourTribes-api/members?search=" + query;
+        List members = new ArrayList<Member>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        /*parser le json pour récupérer les valeurs des membres, créer ces membres pour faire la liste*//*
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error while processing request to get members, check your network", Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(stringRequest);*/
+        Members membersSingl = Members.getInstance();
+        members = membersSingl.getMembers();
+        return members;
     }
 
     public void getListItemsView(MemberFilter memberFilter) {
         listView = (ListView) findViewById(android.R.id.list);
-        listAdapter = new MemberListViewAdapter(this, R.layout.memberinlist, this.getMembers(memberFilter));
+        members = this.getMembers(memberFilter.getFilter());
+        listAdapter = new MemberListViewAdapter(this, R.layout.memberinlist, members);
         listView.setAdapter(listAdapter);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        Intent intent = new Intent(this, MemberActivity.class);
+        intent.putExtra("member", members.get(position));
+        startActivity(intent);
     }
 
     /**

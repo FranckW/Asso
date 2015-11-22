@@ -1,14 +1,18 @@
 package franck.asso.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
-import java.util.Date;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import franck.asso.R;
 
@@ -43,7 +47,7 @@ public class SignUpActivity extends Activity {
         EditText emailInput = (EditText) findViewById(R.id.signUpEmail);
         EditText phoneInput = (EditText) findViewById(R.id.signUpPhone);
         EditText addressInput = (EditText) findViewById(R.id.signUpAddress);
-        boolean gender = maleButton.isPressed();
+        boolean boolGender = maleButton.isPressed();
         String firstName = firstNameInput.getText().toString();
         String lastName = lastNameInput.getText().toString();
         String password = passwordInput.getText().toString();
@@ -53,19 +57,51 @@ public class SignUpActivity extends Activity {
         String address = addressInput.getText().toString();
         if ((maleButton.isPressed() == false && femaleButton.isPressed() == false) || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty() ||
                 birthDate.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty()) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setMessage("Please fill all the fields");
-            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            alert.show();
+            Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_LONG).show();
         } else {
-            /*Check all the fields (mail no taken)*/
-
-            /*Add to database*/
+            //To match the rest api
+            String gender;
+            if (boolGender) {
+                gender = "male";
+            } else gender = "female";
+            this.addMember(gender, firstName, lastName, password, birthDate, email, phone, address);
         }
+    }
+
+    public void addMember(String gender, String firstName, String lastName, String password, String birthdate, String email, String phone, String address) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://vps212972.ovh.net/yourTribes-api/checkEmail?email=" + email;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals("true")) {
+                            //email available, let's send a new request to create the member
+                            RequestQueue addMemberQueue = Volley.newRequestQueue(getApplicationContext());
+                            String url = "http://vps212972.ovh.net/yourTribes-api/createMember";
+                            StringRequest addMemberStringRequest = new StringRequest(Request.Method.GET, url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getApplicationContext(), "Error while creating member, check your network", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            addMemberQueue.add(addMemberStringRequest);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Error while creating member, check your network", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error while checking email availability, check your network", Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(stringRequest);
     }
 }

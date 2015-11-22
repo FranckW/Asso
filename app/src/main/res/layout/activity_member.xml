@@ -13,14 +13,14 @@
             android:id="@+id/memberGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5pt"
+            android:layout_marginRight="2pt"
             android:text="Gender"/>
 
         <TextView
             android:id="@+id/memberFirstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5pt"
+            android:layout_marginRight="2pt"
             android:text="First name"/>
 
         <TextView
@@ -53,5 +53,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Address"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/callButton"
+        android:src="@drawable/call"
+        android:layout_gravity="center_horizontal"
+        android:onClick="call"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send a mail"
+        android:id="@+id/sendMailButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="sendAnEmail"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to the list"
+        android:id="@+id/backToMembersListButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="backToList"/>
 
 </LinearLayout>

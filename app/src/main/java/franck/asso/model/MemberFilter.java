@@ -21,4 +21,8 @@ public class MemberFilter {
         if (member.getLastName().contains(filter)) return true;
         return false;
     }
+
+    public String getFilter() {
+        return filter;
+    }
 }
