@@ -17,6 +17,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,13 +36,11 @@ import franck.asso.model.Members;
 public class MembersListActivity extends ListActivity {
     protected ListView listView;
     protected MemberListViewAdapter listAdapter;
-    protected List<Member> members;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        members = new ArrayList<Member>();
         handleIntent(getIntent());
     }
 
@@ -77,15 +79,43 @@ public class MembersListActivity extends ListActivity {
         }
     }
 
-    public List<Member> getMembers(String query) {
-        /*RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://vps212972.ovh.net/yourTribes-api/members?search=" + query;
-        List members = new ArrayList<Member>();
+    /*
+    Mettre un onglet pour switcher entre les membres du bureau (les StaffMember) et les membres normaux.
+    -> éviter de dupliquer le code de la liste si possible
+     */
+
+    public void getMembers(String query) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://appli.yourtribes-soft.com:1701/membersFiltered/" + query;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        /*parser le json pour récupérer les valeurs des membres, créer ces membres pour faire la liste*//*
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            List<Member> members = Members.getInstance().getMembers();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                String genderString = jsonObject.getString("gender");
+                                boolean gender;
+                                if (genderString.equals("male")) {
+                                    gender = true;
+                                } else {
+                                    gender = false;
+                                }
+                                String firstName = jsonObject.getString("firstname");
+                                String lastName = jsonObject.getString("lastname");
+                                String birthDate = jsonObject.getString("birthday");
+                                String email = jsonObject.getString("email");
+                                String phoneNumber = jsonObject.getString("phoneNumber");
+                                String address = jsonObject.getString("address");
+                                Member member = new Member(gender, firstName, lastName, birthDate, email, phoneNumber, address);
+                                members.add(member);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+        
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -93,23 +123,20 @@ public class MembersListActivity extends ListActivity {
                 Toast.makeText(getApplicationContext(), "Error while processing request to get members, check your network", Toast.LENGTH_LONG).show();
             }
         });
-        queue.add(stringRequest);*/
-        Members membersSingl = Members.getInstance();
-        members = membersSingl.getMembers();
-        return members;
+        queue.add(stringRequest);
     }
 
     public void getListItemsView(MemberFilter memberFilter) {
         listView = (ListView) findViewById(android.R.id.list);
-        members = this.getMembers(memberFilter.getFilter());
-        listAdapter = new MemberListViewAdapter(this, R.layout.memberinlist, members);
+        this.getMembers(memberFilter.getFilter());
+        listAdapter = new MemberListViewAdapter(this, R.layout.memberinlist, Members.getInstance().getMembers());
         listView.setAdapter(listAdapter);
     }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Intent intent = new Intent(this, MemberActivity.class);
-        intent.putExtra("member", members.get(position));
+        intent.putExtra("member", Members.getInstance().getMembers().get(position));
         startActivity(intent);
     }
 

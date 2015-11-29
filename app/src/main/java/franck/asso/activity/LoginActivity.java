@@ -36,12 +36,7 @@ public class LoginActivity extends Activity {
         EditText passwordInput = (EditText) findViewById(R.id.inputPassword);
         login = loginInput.getText().toString();
         password = passwordInput.getText().toString();
-        //this.doLogin(login, password);
-        User.getInstance().setLogin(LoginActivity.login);
-        User.getInstance().setPassword(LoginActivity.password);
-        Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-        startActivity(intent);
+        this.doLogin(login, password);
     }
 
     public void signUp(View view) {
@@ -52,17 +47,19 @@ public class LoginActivity extends Activity {
     public void doLogin(String login, String password) {
         if (Utility.validateEmail(login)) {
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "http://vps212972.ovh.net/yourTribes-api/dologin:Password:" + login;
+            String url = "http://appli.yourtribes-soft.com:1701/loginMatchesPassword/" + login + "/" + password;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            if (response.equals("OK")) {
+                            if (response.equals("true")) {
                                 User.getInstance().setLogin(LoginActivity.login);
                                 User.getInstance().setPassword(LoginActivity.password);
                                 Toast.makeText(getApplicationContext(), "You are successfully logged in!", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                 startActivity(intent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Incorrect login or password", Toast.LENGTH_LONG).show();
                             }
                         }
 

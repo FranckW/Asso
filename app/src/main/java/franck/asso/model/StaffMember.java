@@ -8,7 +8,7 @@ import java.util.Date;
 public class StaffMember extends Member {
     protected Role role;
 
-    public StaffMember(boolean gender, String firstName, String lastName, Date birthDate, String email, String address, String phoneNumber, Role role) {
+    public StaffMember(boolean gender, String firstName, String lastName, String birthDate, String email, String address, String phoneNumber, Role role) {
         super(gender, firstName, lastName, birthDate, email, address, phoneNumber);
         this.role = role;
     }

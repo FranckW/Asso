@@ -1,6 +1,7 @@
 package franck.asso.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import franck.asso.R;
  * Created by franc on 15/10/2015.
  */
 public class SignUpActivity extends Activity {
+    static boolean emailIsAvailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,6 @@ public class SignUpActivity extends Activity {
 
     public void signUpValidation(View view) {
         RadioButton maleButton = (RadioButton) findViewById(R.id.radioButtonMale);
-        RadioButton femaleButton = (RadioButton) findViewById(R.id.radioButtonFemale);
         EditText firstNameInput = (EditText) findViewById(R.id.signUpFirstName);
         EditText lastNameInput = (EditText) findViewById(R.id.signUpLastName);
         EditText passwordInput = (EditText) findViewById(R.id.signUpPassword);
@@ -55,51 +56,57 @@ public class SignUpActivity extends Activity {
         String email = emailInput.getText().toString();
         String phone = phoneInput.getText().toString();
         String address = addressInput.getText().toString();
-        if ((maleButton.isPressed() == false && femaleButton.isPressed() == false) || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty() ||
-                birthDate.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_LONG).show();
-        } else {
-            //To match the rest api
-            String gender;
-            if (boolGender) {
-                gender = "male";
-            } else gender = "female";
+        //To match the rest api
+        String gender;
+        if (boolGender) {
+            gender = "male";
+        } else gender = "female";
+        if (this.checkEmailAvailability(email)) {
             this.addMember(gender, firstName, lastName, password, birthDate, email, phone, address);
+        } else {
+            Toast.makeText(getApplicationContext(), "Email already taken. Please choose another one", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void addMember(String gender, String firstName, String lastName, String password, String birthdate, String email, String phone, String address) {
+    public boolean checkEmailAvailability(String email) {
+        emailIsAvailable = false;
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://vps212972.ovh.net/yourTribes-api/checkEmail?email=" + email;
+        String url = "http://appli.yourtribes-soft.com:1701/emailIsAvailable/" + email;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         if (response.equals("true")) {
-                            //email available, let's send a new request to create the member
-                            RequestQueue addMemberQueue = Volley.newRequestQueue(getApplicationContext());
-                            String url = "http://vps212972.ovh.net/yourTribes-api/createMember";
-                            StringRequest addMemberStringRequest = new StringRequest(Request.Method.GET, url,
-                                    new Response.Listener<String>() {
-                                        @Override
-                                        public void onResponse(String response) {
-
-                                        }
-                                    }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getApplicationContext(), "Error while creating member, check your network", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                            addMemberQueue.add(addMemberStringRequest);
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Error while creating member, check your network", Toast.LENGTH_LONG).show();
+                            emailIsAvailable = true;
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), "Error while checking email availability, check your network", Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(stringRequest);
+        return emailIsAvailable;
+    }
+
+    public void addMember(String gender, String firstName, String lastName, String password, String birthdate, String email, String phone, String address) {
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        String url = "http://appli.yourtribes-soft.com:1701/addMember/" + gender + "/" + firstName + "/" + lastName + "/" + password + "/" + birthdate + "/" + email + "/" + phone + "/" + address;
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //It is ok, there is nothing to do
+                        Toast.makeText(getApplicationContext(), "Account successfully created !", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error while creating member, check your network", Toast.LENGTH_LONG).show();
             }
         });
         queue.add(stringRequest);

@@ -61,7 +61,7 @@ public class MemberActivity extends Activity {
         Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(number));
         startActivity(callIntent);
     }
-    
+
     /**
      * Called when the user touches the back button
      */
