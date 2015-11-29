@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import franck.asso.R;
 import franck.asso.model.Member;
+import franck.asso.utils.ActivitiesHistory;
 
 /**
  * Created by franc on 22/10/2015.
@@ -20,6 +21,7 @@ public class MemberActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member);
+        ActivitiesHistory.getInstance().addActivity(this);
         member = getIntent().getExtras().getParcelable("member");
         TextView genderText = (TextView) findViewById(R.id.memberGender);
         TextView firstNameText = (TextView) findViewById(R.id.memberFirstName);

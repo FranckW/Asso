@@ -21,7 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import franck.asso.R;
@@ -29,6 +28,7 @@ import franck.asso.model.Member;
 import franck.asso.model.MemberFilter;
 import franck.asso.model.MemberListViewAdapter;
 import franck.asso.model.Members;
+import franck.asso.utils.ActivitiesHistory;
 
 /**
  * Created by franc on 20/10/2015.
@@ -41,6 +41,7 @@ public class MembersListActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        ActivitiesHistory.getInstance().addActivity(this);
         handleIntent(getIntent());
     }
 
@@ -114,7 +115,7 @@ public class MembersListActivity extends ListActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-        
+
                         }
                     }
                 }, new Response.ErrorListener() {

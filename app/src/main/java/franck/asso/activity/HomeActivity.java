@@ -9,6 +9,7 @@ import android.view.View;
 
 import franck.asso.R;
 import franck.asso.model.User;
+import franck.asso.utils.ActivitiesHistory;
 
 public class HomeActivity extends Activity {
     
@@ -50,6 +51,7 @@ public class HomeActivity extends Activity {
 
     public void logOut(View view) {
         User.getInstance().reset();
+        ActivitiesHistory.getInstance().flush();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }

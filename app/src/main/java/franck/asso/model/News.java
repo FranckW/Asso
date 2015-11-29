@@ -8,8 +8,9 @@ import java.util.Date;
 public class News {
     protected String content;
     protected Date date;
+    protected Member author;
 
-    public News(String content, Date date) {
+    public News(String content, Date date, Member author) {
         this.content = content;
         this.date = date;
     }
@@ -20,5 +21,9 @@ public class News {
 
     public Date getDate() {
         return date;
+    }
+
+    public Member getAuthor() {
+        return author;
     }
 }

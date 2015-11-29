@@ -12,6 +12,7 @@
 * Role (enum)
 * MemberFilter
 * MemberListViewAdapter
+* Members (singleton)
 
 ####Activity
 
@@ -21,6 +22,11 @@
 *MemberActivity
 *MembersListActivity
 
+####Utils
+
+* Utility
+* ActivitiesHistory
+
 **Association**:
 
 * has a name, an address, a description, a list of **News**, a list of **Member** and a list of **StaffMember**
@@ -29,6 +35,8 @@
 **User** is the singleton needed to login
 
 **Member** implements Parcelable to be able to transfer a member object between activities (such as a list of members -> selected member's profil)
+
+**Members** is the singleton used to manipulate all the members without doing an http request each time to get them
 
 **StaffMember** has a role which is one item of **Role**
 
@@ -42,8 +50,4 @@
 
 **MembersListActivity** is the list of all the members which can be filtered
 
-##Example of use case
-
-* A **User** opens the app
-* Sign in on the first screen (optionnaly create an account)
-* He can choose between display a list of association's members and display news
+**ActivitiesHistory** is a singleton used to keep a trace of all the running activities. It is used to flush the stack when user logs out. It prevents user from going back in running activities when he is no longer logged in
