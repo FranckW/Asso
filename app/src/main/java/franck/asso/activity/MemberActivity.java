@@ -71,4 +71,8 @@ public class MemberActivity extends Activity {
         Intent intent = new Intent(this, MembersListActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

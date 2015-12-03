@@ -21,8 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import franck.asso.R;
 import franck.asso.model.Member;
 import franck.asso.model.MemberFilter;
@@ -80,13 +78,11 @@ public class MembersListActivity extends ListActivity {
         }
     }
 
-    /*
-    Mettre un onglet pour switcher entre les membres du bureau (les StaffMember) et les membres normaux.
-    -> éviter de dupliquer le code de la liste si possible
-     */
-
     public void getMembers(String query) {
         RequestQueue queue = Volley.newRequestQueue(this);
+        if (query.equals("")) {
+            query = "*";
+        }
         String url = "http://appli.yourtribes-soft.com:1701/membersFiltered/" + query;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -94,7 +90,6 @@ public class MembersListActivity extends ListActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-                            List<Member> members = Members.getInstance().getMembers();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 String genderString = jsonObject.getString("gender");
@@ -108,10 +103,10 @@ public class MembersListActivity extends ListActivity {
                                 String lastName = jsonObject.getString("lastname");
                                 String birthDate = jsonObject.getString("birthday");
                                 String email = jsonObject.getString("email");
-                                String phoneNumber = jsonObject.getString("phoneNumber");
-                                String address = jsonObject.getString("address");
+                                String address = jsonObject.getString("phoneNumber");
+                                String phoneNumber = jsonObject.getString("address");
                                 Member member = new Member(gender, firstName, lastName, birthDate, email, phoneNumber, address);
-                                members.add(member);
+                                Members.getInstance().addMembers(member);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -129,6 +124,7 @@ public class MembersListActivity extends ListActivity {
 
     public void getListItemsView(MemberFilter memberFilter) {
         listView = (ListView) findViewById(android.R.id.list);
+        Members.getInstance().getMembers().clear();
         this.getMembers(memberFilter.getFilter());
         listAdapter = new MemberListViewAdapter(this, R.layout.memberinlist, Members.getInstance().getMembers());
         listView.setAdapter(listAdapter);
@@ -147,6 +143,10 @@ public class MembersListActivity extends ListActivity {
     public void goToHomePage(View view) {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
 }

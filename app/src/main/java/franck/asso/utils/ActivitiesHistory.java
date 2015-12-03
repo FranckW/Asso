@@ -19,7 +19,7 @@ public class ActivitiesHistory {
     private ActivitiesHistory() {
         runningActivities = new ArrayList<Activity>();
     }
-    
+
     public void flush() {
         runningActivities = new ArrayList<Activity>();
     }
