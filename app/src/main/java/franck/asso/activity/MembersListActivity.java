@@ -21,6 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import franck.asso.R;
 import franck.asso.model.Member;
 import franck.asso.model.MemberFilter;
@@ -110,7 +113,6 @@ public class MembersListActivity extends ListActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-
                         }
                     }
                 }, new Response.ErrorListener() {

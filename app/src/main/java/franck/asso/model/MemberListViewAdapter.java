@@ -55,25 +55,4 @@ public class MemberListViewAdapter extends ArrayAdapter<Member> {
         members.remove(member);
         notifyDataSetChanged();
     }
-
-    public void toggleSelection(int position) {
-        selectView(position, !selectedItemsIds.get(position));
-    }
-
-    public void removeSelection() {
-        selectedItemsIds = new SparseBooleanArray();
-        notifyDataSetChanged();
-    }
-
-    public void selectView(int position, boolean value) {
-        if (value)
-            selectedItemsIds.put(position, value);
-        else
-            selectedItemsIds.delete(position);
-        notifyDataSetChanged();
-    }
-
-    public SparseBooleanArray getSelectedIds() {
-        return selectedItemsIds;
-    }
 }

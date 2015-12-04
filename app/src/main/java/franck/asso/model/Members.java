@@ -1,9 +1,7 @@
 package franck.asso.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by franc on 28/11/2015.

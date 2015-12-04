@@ -1,23 +1,29 @@
 package franck.asso.activity;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import franck.asso.R;
+import franck.asso.model.NewsList;
+import franck.asso.model.NewsListViewAdapter;
 import franck.asso.model.User;
 import franck.asso.utils.ActivitiesHistory;
 
-public class HomeActivity extends Activity {
-    
+public class HomeActivity extends ListActivity {
+    protected ListView listView;
+    protected NewsListViewAdapter listAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (User.getInstance().isSet()) {
             setContentView(R.layout.activity_home);
+            this.displayNewsList();
         } else {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -42,6 +48,12 @@ public class HomeActivity extends Activity {
         }
         
         return super.onOptionsItemSelected(item);
+    }
+
+    public void displayNewsList() {
+        listView = (ListView) findViewById(R.id.newsList);
+        listAdapter = new NewsListViewAdapter(this, R.layout.newsinlist, NewsList.getInstance().getNewsList());
+        listView.setAdapter(listAdapter);
     }
 
     public void goToMembersList(View view) {
