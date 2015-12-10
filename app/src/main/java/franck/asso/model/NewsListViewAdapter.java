@@ -20,7 +20,7 @@ public class NewsListViewAdapter extends ArrayAdapter<News> {
     protected LayoutInflater inflater;
     protected List<News> newsList;
     protected SparseBooleanArray selectedItemsIds;
-
+    
     public NewsListViewAdapter(Context context, int resourceId, List<News> newsList) {
         super(context, resourceId, newsList);
         selectedItemsIds = new SparseBooleanArray();

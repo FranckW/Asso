@@ -15,11 +15,11 @@
 
 ####Activity
 
-*HomeActivity
-*LoginActivity
-*SignUpActivity
-*MemberActivity
-*MembersListActivity
+* HomeActivity
+* LoginActivity
+* SignUpActivity
+* MemberActivity
+* MembersListActivity
 
 ####Utils
 
