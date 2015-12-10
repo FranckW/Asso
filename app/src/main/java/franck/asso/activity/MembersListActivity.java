@@ -77,7 +77,7 @@ public class MembersListActivity extends ListActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             this.getListItemsView(new MemberFilter(query));
         } else {
-            this.getListItemsView(new MemberFilter());
+            this.getListItemsView(new MemberFilter(""));
         }
     }
 

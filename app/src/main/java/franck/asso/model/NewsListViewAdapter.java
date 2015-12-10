@@ -40,7 +40,7 @@ public class NewsListViewAdapter extends ArrayAdapter<News> {
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = inflater.inflate(R.layout.memberinlist, null);
+            view = inflater.inflate(R.layout.newsinlist, null);
             holder.title = (TextView) view.findViewById(R.id.newsTitle);
             holder.content = (TextView) view.findViewById(R.id.newsContent);
             holder.date = (TextView) view.findViewById(R.id.newsDate);

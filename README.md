@@ -4,7 +4,6 @@
 ### Classes
 
 ####Model
-* Association
 * News
 * Member
   * StaffMember
@@ -27,11 +26,6 @@
 * Utility
 * ActivitiesHistory
 
-**Association**:
-
-* has a name, an address, a description, a list of **News**, a list of **Member** and a list of **StaffMember**
-* must have at least two **StaffMember** (President, Treasurer)
-
 **User** is the singleton needed to login
 
 **Member** implements Parcelable to be able to transfer a member object between activities (such as a list of members -> selected member's profil)
@@ -40,7 +34,7 @@
 
 **StaffMember** has a role which is one item of **Role**
 
-**HomeActivity** is the main activity. This is where the user manages the association, sees members, news etc
+**HomeActivity** is the main activity. This is where the user manages the association, can go to see members, news etc
 
 **LoginActivity** is the sign in page. It has to have a connected user
 

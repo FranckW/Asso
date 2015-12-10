@@ -21,8 +21,6 @@ import franck.asso.R;
  * Created by franc on 15/10/2015.
  */
 public class SignUpActivity extends Activity {
-    static boolean emailIsAvailable;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +66,13 @@ public class SignUpActivity extends Activity {
         }
     }
 
+    private class EmailAvailableHolder {
+        boolean isAvailable;
+    }
+
     public boolean checkEmailAvailability(String email) {
-        emailIsAvailable = false;
+        final EmailAvailableHolder checkEmailHolder = new EmailAvailableHolder();
+        checkEmailHolder.isAvailable = false;
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://appli.yourtribes-soft.com:1701/emailIsAvailable/" + email;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -77,7 +80,7 @@ public class SignUpActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         if (response.equals("true")) {
-                            emailIsAvailable = true;
+                            checkEmailHolder.isAvailable = true;
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -87,7 +90,7 @@ public class SignUpActivity extends Activity {
             }
         });
         queue.add(stringRequest);
-        return emailIsAvailable;
+        return checkEmailHolder.isAvailable;
     }
 
     public void addMember(String gender, String firstName, String lastName, String password, String birthdate, String email, String phone, String address) {
@@ -101,7 +104,6 @@ public class SignUpActivity extends Activity {
                         Toast.makeText(getApplicationContext(), "Account successfully created !", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
-
                     }
                 }, new Response.ErrorListener() {
             @Override

@@ -36,7 +36,7 @@ public class LoginActivity extends Activity {
         EditText passwordInput = (EditText) findViewById(R.id.inputPassword);
         login = loginInput.getText().toString();
         password = passwordInput.getText().toString();
-        this.doLogin(login, password);
+        this.doLogin(login.trim(), password);
     }
 
     public void signUp(View view) {

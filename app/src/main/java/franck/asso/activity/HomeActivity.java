@@ -51,7 +51,7 @@ public class HomeActivity extends ListActivity {
     }
 
     public void displayNewsList() {
-        listView = (ListView) findViewById(R.id.newsList);
+        listView = (ListView) findViewById(android.R.id.list);
         listAdapter = new NewsListViewAdapter(this, R.layout.newsinlist, NewsList.getInstance().getNewsList());
         listView.setAdapter(listAdapter);
     }
@@ -70,5 +70,9 @@ public class HomeActivity extends ListActivity {
 
     @Override
     public void onBackPressed() {
+    }
+
+    public void authorClicked(View view) {
+
     }
 }

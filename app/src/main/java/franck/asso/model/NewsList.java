@@ -16,7 +16,7 @@ public class NewsList {
     protected List<News> newsList;
 
     private NewsList() {
-        /*Some examples, because we do not have implemented news server side yet*/
+        /*Some examples, because we have not implemented news server side yet*/
         Member author1 = new Member(true, "Paulo", "Lasticot", "03/03/1980", "paulo@gmail.com", "10 rue blabla 59000 Lille", "0668531292");
         Member author2 = new Member(true, "Franck", "Warlouzet", "12/03/1992", "franck.warlouzet@hotmail.fr", "10 rue blabla 59000 Lille", "0668531292");
         News news1 = new News("Meeting in Lille !", "To show our faces to the people of Lille, we participate to a meeting in Lille.", "10/03/2016", author1);

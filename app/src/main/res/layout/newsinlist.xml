@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2pt"
+        android:textStyle="bold"
         android:textSize="30sp"/>
 
     <TextView
@@ -30,6 +31,8 @@
         android:id="@+id/newsAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="22sp"/>
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:onClick="authorClicked"/>
 
 </LinearLayout>
