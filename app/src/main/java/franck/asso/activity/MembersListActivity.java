@@ -123,7 +123,7 @@ public class MembersListActivity extends ListActivity {
         });
         queue.add(stringRequest);
     }
-
+    
     public void getListItemsView(MemberFilter memberFilter) {
         listView = (ListView) findViewById(android.R.id.list);
         Members.getInstance().getMembers().clear();

@@ -1,6 +1,8 @@
 # Asso
 ## An Android application to manage association
 
+[Web part documentation](http://yourtribes.github.io/)
+
 ### Classes
 
 ####Model
